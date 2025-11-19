@@ -14,6 +14,7 @@ const photoPreview = document.querySelector('#photoPreview');
 const btnCancel = document.querySelector('#btn-cancel');
 const divExpreince = document.querySelector('#worker-form');
 const divWorkers = document.querySelector('#workers');
+const body = document.querySelector('#main'); 
 
 function getDataFromLocalStorage() {
     const data = localStorage.getItem(STOCAGEKEY);
@@ -59,12 +60,58 @@ function openModal(id = null) {
         })
     }
 }
+function detailsWorker(worker){
+      const modalWorkerDetails = document.createElement('div');
+      modalWorkerDetails.innerHTML = `<div class="fixed inset-0 flex z-50 items-center justify-center">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative">
+                <button id="closeModel" class="text-amber-100 absolute  right-5 top-1">X</button>
+                <form id="worker-form" class="space-y-4">
+                    <input type="hidden" id="worker-id" >
+                    <div class="flex items-center gap-4">
+                        <img id="photoPreview"
+                            src="${worker.url}"
+                            alt="Photo preview" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300">
+                    </div>
+                    <div class="flex gap-2">
+                        <label for="">name :</label>
+                        <p>${worker.name}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <label for="">role :</label>
+                        <p>${worker.role}</p>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <label for="">email :</label>
+                        <p>${worker.email}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <label for="">Phone :</label>
+                        <p>${worker.phone}</p>
+                    </div>
+                    <div id="expreinces-details" class="flex flex-col gap-2">
+                    
+                    </div>
+                </form>
+
+            </div>
+        </div>`;
+        const btnCloseModalDetails =modalWorkerDetails.querySelector("#closeModel");
+        btnCloseModalDetails.addEventListener('click',()=>{
+            modalWorkerDetails.remove();
+        })
+        const expreincesDetails = modalWorkerDetails.querySelector("#expreinces-details");
+        worker.expreinces.forEach(exp => {
+            addExprience(exp , expreincesDetails)
+        })
+    body.append(modalWorkerDetails);
+}
 function closeModel() {
     deleteFormExprience();
     videInputs();
     modal.style.display = 'none';
 }
-function infosWorker(){
+function infosWorker() {
     const workerInfos = [];
     const id = divExpreince.querySelector('#worker-id').value;
     const name = divExpreince.querySelector('#name').value;
@@ -76,7 +123,7 @@ function infosWorker(){
     const companies = expreinces.querySelectorAll(".company");
     const rolesE = expreinces.querySelectorAll(".role");
     const formDate = expreinces.querySelectorAll(".form-date");
-    const toDate = expreinces.querySelectorAll(".to-date"); 
+    const toDate = expreinces.querySelectorAll(".to-date");
     let expp = [];
 
     for (let i = 0; i < companies.length; i++) {
@@ -86,7 +133,7 @@ function infosWorker(){
             formDate: formDate[i].value,
             toDate: toDate[i].value
         });
-     workerInfos.push({
+        workerInfos.push({
             id: genretid(),
             name,
             role,
@@ -95,21 +142,21 @@ function infosWorker(){
             phone,
             expreinces: expp
         });
-        
+
+    }
+    return workerInfos;
 }
-return workerInfos;
-}
-function videInputs(){
-    divExpreince.querySelector('#worker-id').value="";
-    divExpreince.querySelector('#name').value="";
-    divExpreince.querySelector('#role').value="";
-    divExpreince.querySelector('#photoUrl').value="";
-    divExpreince.querySelector('#photoPreview').setAttribute('src','https://imgs.search.brave.com/IZK862jIKGBRPE7eNDkXhvPvuqDL8TNq0hHfIQs2MGg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTMy/NzU5MjQ0OS92ZWN0/b3IvZGVmYXVsdC1h/dmF0YXItcGhvdG8t/cGxhY2Vob2xkZXIt/aWNvbi1ncmV5LXBy/b2ZpbGUtcGljdHVy/ZS1idXNpbmVzcy1t/YW4uanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPXlxb29zN2c5/am11ZkpoZmtiUXNr/LW1kaEtFc2loNkRp/NFdaNjZ0X2liN0k9');
-    divExpreince.querySelector('#email').value= "";
-    divExpreince.querySelector('#phone').value= "";
+function videInputs() {
+    divExpreince.querySelector('#worker-id').value = "";
+    divExpreince.querySelector('#name').value = "";
+    divExpreince.querySelector('#role').value = "";
+    divExpreince.querySelector('#photoUrl').value = "";
+    divExpreince.querySelector('#photoPreview').setAttribute('src', 'https://imgs.search.brave.com/IZK862jIKGBRPE7eNDkXhvPvuqDL8TNq0hHfIQs2MGg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTMy/NzU5MjQ0OS92ZWN0/b3IvZGVmYXVsdC1h/dmF0YXItcGhvdG8t/cGxhY2Vob2xkZXIt/aWNvbi1ncmV5LXBy/b2ZpbGUtcGljdHVy/ZS1idXNpbmVzcy1t/YW4uanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPXlxb29zN2c5/am11ZkpoZmtiUXNr/LW1kaEtFc2loNkRp/NFdaNjZ0X2liN0k9');
+    divExpreince.querySelector('#email').value = "";
+    divExpreince.querySelector('#phone').value = "";
 }
 function saveWorker() {
-    
+
     let newData = getDataFromLocalStorage();
     const id = divExpreince.querySelector('#worker-id').value;
     const name = divExpreince.querySelector('#name').value;
@@ -122,8 +169,8 @@ function saveWorker() {
     const rolesE = expreinces.querySelectorAll(".role");
     const formDate = expreinces.querySelectorAll(".form-date");
     const toDate = expreinces.querySelectorAll(".to-date");
-        idWorker = newData.find(worker => worker.id == id)
-           let expp = [];
+    idWorker = newData.find(worker => worker.id == id)
+    let expp = [];
 
     for (let i = 0; i < companies.length; i++) {
         expp.push({
@@ -131,20 +178,19 @@ function saveWorker() {
             role: rolesE[i].value,
             formDate: formDate[i].value,
             toDate: toDate[i].value
-        });}
+        });
+    }
     console.log(idWorker);
     if (idWorker) {
-                
-                idWorker.name = name;
-                idWorker.role = role;
-                idWorker.url = url;
-                idWorker.email = email;
-                idWorker.phone = phone;
-                idWorker.expreinces = expp;
-                console.log(idWorker.name);  
-            }
-          
-        
+
+        idWorker.name = name;
+        idWorker.role = role;
+        idWorker.url = url;
+        idWorker.email = email;
+        idWorker.phone = phone;
+        idWorker.expreinces = expp;
+        console.log(idWorker.name);
+    }
     else {
         newData.push({
             id: genretid(),
@@ -162,7 +208,7 @@ function saveWorker() {
     closeModel();
     listeWorkers();
     videInputs();
-    }
+}
 
 
 function deleteFormExprience() {
@@ -171,9 +217,23 @@ function deleteFormExprience() {
         item.remove();
     })
 }
-function addExprience(exprience = null) {
+function addExprience(exprience = null, place = null) {
     const div = document.createElement('div');
-    div.innerHTML += `<div class="exprince flex flex-col gap-2 bg-gray-300 rounded-2xl p-4">
+     if(place){
+         div.innerHTML += `<div class="exprince grid grid-cols-2 gap-2 bg-gray-300 rounded-2xl p-4">
+                                        <label for="">company :</label>
+                                        <p>${exprience.company}</p>
+                                        <label for="">role :</label>
+                                        <p>${exprience.role}</p>
+                                        <label for="">form :</label>
+                                        <p>${exprience.formDate}</p>
+                                        <label for="">to :
+                                        </label>
+                                        <p>${exprience.toDate}</p>
+                            </div>` ;
+    place.append(div);
+   }else{
+     div.innerHTML += `<div class="exprince flex flex-col gap-2 bg-gray-300 rounded-2xl p-4">
                                         <label for="">company :</label>
                                         <input value="${exprience?.company || ''}"  type="text" class="company px-3 py-2 border border-gray-300 rounded-lg 
                                         focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -188,7 +248,8 @@ function addExprience(exprience = null) {
                                         <input value="${exprience?.toDate || ''}" class="to-date" type="date" class="px-3 py-2 border border-gray-300 rounded-lg 
                                         ">
                             </div>` ;
-    expreinces.appendChild(div);
+    expreinces.append(div);
+   } 
 }
 function changePhoto() {
     const newUrl = avatar.value;
@@ -215,7 +276,7 @@ function renderWorker(worker) {
     const divWorker = document.createElement('div');
     divWorker.innerHTML = `
     <div class="flex w-full justify-between p-2 bg-amber-400 ">
-                        <div class="flex gap-2 items-center">
+                        <div class="cartWorker flex gap-2 items-center">
                             <img class="w-16 h-16 rounded-full"
                                 src="${worker.url}">
                             <div>
@@ -225,6 +286,10 @@ function renderWorker(worker) {
                         </div>
                         <button class="btn-edite-worker" id=${worker.id}><i class="fa-solid fa-pen"></i></button>
                     </div>`
+
+    divWorker.querySelector(".cartWorker").addEventListener('click',()=>{
+        detailsWorker(worker);
+    })
     divWorkers.append(divWorker);
 }
 
