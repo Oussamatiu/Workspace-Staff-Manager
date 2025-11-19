@@ -1,3 +1,8 @@
+
+const STOCAGEKEY = 'staff';
+let changeId = null;
+let idWorker = null;
+
 const btnAddWorker = document.querySelector('#btn-add-worker');
 const modal = document.querySelector('#modal');
 const closeModal = document.querySelector('#closeModel');
@@ -9,22 +14,7 @@ const photoPreview = document.querySelector('#photoPreview');
 const btnCancel = document.querySelector('#btn-cancel');
 const divExpreince = document.querySelector('#worker-form');
 const divWorkers = document.querySelector('#workers');
-const STOCAGEKEY = 'staff';
-let changeId = null;
-avatar.addEventListener('input', changePhoto);
-btnCancel.addEventListener('click', closeModel);
-btnAddWorker.addEventListener('click', openModal);
-closeModal.addEventListener('click', closeModel);
 
-btnAddExpeience.addEventListener('click', (e) => {
-    e.preventDefault();
-    addExprience()
-});
-
-btnSubmit.addEventListener('click', (e) => {
-    e.preventDefault();
-    saveWorker(e);
-})
 function getDataFromLocalStorage() {
     const data = localStorage.getItem(STOCAGEKEY);
     if (data) {
@@ -32,98 +22,149 @@ function getDataFromLocalStorage() {
     }
     return [];
 }
+
+
 function genretid() {
     return `s${Date.now() + Math.random().toString(36)}`
 }
-function addEventListenerToBtns(){
-     const editeBtns = document.querySelectorAll('.btn-edite-worker');
-        editeBtns.forEach(item => {
-            item.addEventListener('click', ()=>{
-                
-                 idWorker = item.getAttribute('id');
-                 openModal(idWorker);
-            })
+
+
+function attachEventsToEmplyeeActionBtns() {
+    const editeBtns = document.querySelectorAll('.btn-edite-worker');
+    editeBtns.forEach(item => {
+        item.addEventListener('click', () => {
+
+            idWorker = item.getAttribute('id');
+            openModal(idWorker);
         })
+    })
 }
 function openModal(id = null) {
     changeId = id;
-    modal.style.display = 'flex'; 
-    if(changeId ){
+    modal.style.display = 'flex';
+    if (changeId) {
         const allWorkers = getDataFromLocalStorage();
         const worker = allWorkers.find(item =>
             item.id == id
         )
-         divExpreince.querySelector('#name').value = worker.name;
-         divExpreince.querySelector('#role').value = worker.role;
-         divExpreince.querySelector('#photoUrl').value = worker.url;
-         divExpreince.querySelector('#email').value = worker.email;
-         divExpreince.querySelector('#phone').value = worker.phone;
-         changePhoto()
-         worker.expreinces.forEach(exp =>{
+        divExpreince.querySelector('#worker-id').value = worker.id;
+        divExpreince.querySelector('#name').value = worker.name;
+        divExpreince.querySelector('#role').value = worker.role;
+        divExpreince.querySelector('#photoUrl').value = worker.url;
+        divExpreince.querySelector('#email').value = worker.email;
+        divExpreince.querySelector('#phone').value = worker.phone;
+        changePhoto()
+        worker.expreinces.forEach(exp => {
             addExprience(exp)
-         })
-        
+        })
     }
-
-     
-    
-    
 }
 function closeModel() {
     deleteFormExprience();
+    videInputs();
     modal.style.display = 'none';
 }
-function saveWorker(workerId = null) {
-    const newData = getDataFromLocalStorage();
-   
+function infosWorker(){
+    const workerInfos = [];
+    const id = divExpreince.querySelector('#worker-id').value;
     const name = divExpreince.querySelector('#name').value;
     const role = divExpreince.querySelector('#role').value;
     const url = divExpreince.querySelector('#photoUrl').value;
     const email = divExpreince.querySelector('#email').value;
     const phone = divExpreince.querySelector('#phone').value;
-    const company = expreinces.querySelectorAll(".company");
-    const roleE = expreinces.querySelectorAll(".role")
+
+    const companies = expreinces.querySelectorAll(".company");
+    const rolesE = expreinces.querySelectorAll(".role");
+    const formDate = expreinces.querySelectorAll(".form-date");
+    const toDate = expreinces.querySelectorAll(".to-date"); 
+    let expp = [];
+
+    for (let i = 0; i < companies.length; i++) {
+        expp.push({
+            company: companies[i].value,
+            role: rolesE[i].value,
+            formDate: formDate[i].value,
+            toDate: toDate[i].value
+        });
+     workerInfos.push({
+            id: genretid(),
+            name,
+            role,
+            url,
+            email,
+            phone,
+            expreinces: expp
+        });
+        
+}
+return workerInfos;
+}
+function videInputs(){
+    divExpreince.querySelector('#worker-id').value="";
+    divExpreince.querySelector('#name').value="";
+    divExpreince.querySelector('#role').value="";
+    divExpreince.querySelector('#photoUrl').value="";
+    divExpreince.querySelector('#photoPreview').setAttribute('src','https://imgs.search.brave.com/IZK862jIKGBRPE7eNDkXhvPvuqDL8TNq0hHfIQs2MGg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTMy/NzU5MjQ0OS92ZWN0/b3IvZGVmYXVsdC1h/dmF0YXItcGhvdG8t/cGxhY2Vob2xkZXIt/aWNvbi1ncmV5LXBy/b2ZpbGUtcGljdHVy/ZS1idXNpbmVzcy1t/YW4uanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPXlxb29zN2c5/am11ZkpoZmtiUXNr/LW1kaEtFc2loNkRp/NFdaNjZ0X2liN0k9');
+    divExpreince.querySelector('#email').value= "";
+    divExpreince.querySelector('#phone').value= "";
+}
+function saveWorker() {
+    
+    let newData = getDataFromLocalStorage();
+    const id = divExpreince.querySelector('#worker-id').value;
+    const name = divExpreince.querySelector('#name').value;
+    const role = divExpreince.querySelector('#role').value;
+    const url = divExpreince.querySelector('#photoUrl').value;
+    const email = divExpreince.querySelector('#email').value;
+    const phone = divExpreince.querySelector('#phone').value;
+
+    const companies = expreinces.querySelectorAll(".company");
+    const rolesE = expreinces.querySelectorAll(".role");
     const formDate = expreinces.querySelectorAll(".form-date");
     const toDate = expreinces.querySelectorAll(".to-date");
-    let expp = [];
-    if (newData.name === name && newData.email === email && newData.phone === phone) {
-        alert("this worker already existe!");
-        return;
-    }
-    let len = company.length;
-    for (let i = 0; i < len; i++) {
-        let makeObj = {
-            'company': company[i].value,
-            'role': roleE[i].value,
-            'formDate': formDate[i].value,
-            'toDate': toDate[i].value
-        }
-        expp.push(makeObj);
+        idWorker = newData.find(worker => worker.id == id)
+           let expp = [];
+
+    for (let i = 0; i < companies.length; i++) {
+        expp.push({
+            company: companies[i].value,
+            role: rolesE[i].value,
+            formDate: formDate[i].value,
+            toDate: toDate[i].value
+        });}
+    console.log(idWorker);
+    if (idWorker) {
+                
+                idWorker.name = name;
+                idWorker.role = role;
+                idWorker.url = url;
+                idWorker.email = email;
+                idWorker.phone = phone;
+                idWorker.expreinces = expp;
+                console.log(idWorker.name);  
+            }
+          
+        
+    else {
+        newData.push({
+            id: genretid(),
+            name,
+            role,
+            url,
+            email,
+            phone,
+            expreinces: expp
+        });
     }
 
-    const infosWorker = {
-        'id': genretid(),
-        'name': name,
-        'role': role,
-        'url': url,
-        'email': email,
-        'phone': phone,
-        'expreinces': expp
-    }
-     if(workerId){
-        const editeWorker = newData.filter(worker =>{
-            workerId == worker.id
-        } 
-            
-        )
-    editeWorker.n
-        
-    }
-    sendDataToLocalStorage(infosWorker);
+    sendDataToLocalStorage(newData);
     deleteFormExprience();
     closeModel();
     listeWorkers();
-}
+    videInputs();
+    }
+
+
 function deleteFormExprience() {
     const exprienceToDelet = expreinces.querySelectorAll('.exprince');
     exprienceToDelet.forEach(item => {
@@ -156,11 +197,7 @@ function changePhoto() {
 
 }
 function sendDataToLocalStorage(data) {
-    const oldData = getDataFromLocalStorage();
-    console.log(data);
-    oldData.push(data);
-    console.log(oldData);
-    localStorage.setItem(STOCAGEKEY, JSON.stringify(oldData));
+    localStorage.setItem(STOCAGEKEY, JSON.stringify(data));
 }
 function listeWorkers() {
     divWorkers.querySelectorAll('div').forEach(item => {
@@ -171,10 +208,10 @@ function listeWorkers() {
     works.forEach(worker => {
         renderWorker(worker)
     })
-    addEventListenerToBtns();
+    attachEventsToEmplyeeActionBtns();
 }
 function renderWorker(worker) {
-    
+
     const divWorker = document.createElement('div');
     divWorker.innerHTML = `
     <div class="flex w-full justify-between p-2 bg-amber-400 ">
@@ -190,4 +227,28 @@ function renderWorker(worker) {
                     </div>`
     divWorkers.append(divWorker);
 }
-listeWorkers()
+
+
+function initialisation() {
+
+    avatar.addEventListener('input', changePhoto);
+    btnCancel.addEventListener('click', closeModel);
+    closeModal.addEventListener('click', closeModel);
+    btnAddWorker.addEventListener('click', () => {
+        openModal()
+    });
+
+    btnAddExpeience.addEventListener('click', (e) => {
+        e.preventDefault();
+        addExprience()
+    });
+
+    btnSubmit.addEventListener('click', (e) => {
+        e.preventDefault();
+        saveWorker();
+    })
+
+    listeWorkers()
+}
+
+initialisation(); 
