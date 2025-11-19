@@ -1,12 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+    <script defer src="index.js"></script>
     <title>Workspace Staff Manager</title>
 </head>
+
 <body>
-    <h1 class="text-amber-300">hu</h1>
+    <main class="w-full">
+        <div class="container grid grid-cols-4 h-[100vh] bg-amber-100 py-5 px-3 gap-2">
+            <section class="side-bar h-full border border-black flex flex-col gap-2 items-center p-3">
+                <h1 class="text-2xl font-medium">
+                    staff-mambers
+                </h1>
+                <button id="btn-add-worker" class=" w-full py-3 bg-amber-50 hover:bg-blue-300 transition duration-700">
+                    Ad new worker
+                </button>
+                <div class="flex flex-col gap-2 w-full overflow-y-auto h-[75vh]" id="workers">
+                    
+
+                </div>
+            </section>
+            <section
+                class="col-span-3 bg-[url('./images/plan-6918d7e78ba30539026036.jpg')] bg-no-repeat bg-center bg-cover relative w-full">
+                <div class="absolute left-32 bottom-[10%]"><button class="px-2 py-1 bg-blue-600 rounded-full">+</button>
+                </div>
+                <div class="absolute left-32 top-40"><button class="px-2 py-1 bg-blue-600 rounded-full">+</button></div>
+                <div class="absolute left-[65%] top-40"><button class="px-2 py-1 bg-blue-600 rounded-full">+</button>
+                </div>
+                <div class="absolute left-[90%] top-40"><button class="px-2 py-1 bg-blue-600 rounded-full">+</button>
+                </div>
+                <div class="absolute left-[65%] bottom-[25%]"><button
+                        class="px-2 py-1 bg-blue-600 rounded-full">+</button></div>
+                <div class="absolute left-[90%] bottom-[25%]"><button
+                        class="px-2 py-1 bg-blue-600 rounded-full">+</button></div>
+            </section>
+        </div>
+
+        <div id="modal" class="fixed inset-0 hidden z-50 items-center justify-center">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative">
+                <button id="closeModel" class="text-amber-100 absolute right-5 top-1">X</button>
+                <form id="worker-form" class="space-y-4">
+                    <input type="hidden" id="worker-id">
+                    <div class="flex flex-col gap-2">
+                        <label for="">name :</label>
+                        <input id="name" type="text" class=" px-3 py-2 border border-gray-300 rounded-lg 
+                           focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="">role :</label>
+                        <select class="px-3 py-2 border border-gray-300 rounded-lg" name="" id="role">
+                            <option value="Salle des serveurs">Salle des serveurs</option>
+                            <option value="Réception">Réception</option>
+                            <option value="Salle de conférence">Salle de conférence</option>
+
+                        </select>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <img id="photoPreview"
+                            src="https://imgs.search.brave.com/IZK862jIKGBRPE7eNDkXhvPvuqDL8TNq0hHfIQs2MGg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTMy/NzU5MjQ0OS92ZWN0/b3IvZGVmYXVsdC1h/dmF0YXItcGhvdG8t/cGxhY2Vob2xkZXIt/aWNvbi1ncmV5LXBy/b2ZpbGUtcGljdHVy/ZS1idXNpbmVzcy1t/YW4uanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPXlxb29zN2c5/am11ZkpoZmtiUXNr/LW1kaEtFc2loNkRp/NFdaNjZ0X2liN0k9"
+                            alt="Photo preview" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300">
+
+                        <input id="photoUrl" placeholder="Photo URL" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg 
+                           focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="">email :</label>
+                        <input id="email" type="email" class=" px-3 py-2 border border-gray-300 rounded-lg 
+                           focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="">Phone :</label>
+                        <input id="phone" type="tel" class=" px-3 py-2 border border-gray-300 rounded-lg 
+                           focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div id="expreinces" class="flex flex-col gap-2">
+
+                    </div>
+                    <button id="btn-add-exprience" class="bg-blue-400 rounded-2xl p-2">Add exprience</button>
+                    <div class="flex justify-between">
+                        <button id="btn-submit" class="bg-blue-400 rounded-xl px-4 py-1">save</button>
+                        <button id="btn-cancel" type="button" class="bg-blue-400 rounded-xl px-4 py-1">cancel</button>
+                    </div>
+
+
+
+                </form>
+
+            </div>
+        </div>
+
+
+
+    </main>
 </body>
+
 </html>
