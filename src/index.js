@@ -1,4 +1,3 @@
-
 const STOCAGEKEY = 'staff';
 let changeId = null;
 let idWorker = null;
@@ -14,7 +13,7 @@ const photoPreview = document.querySelector('#photoPreview');
 const btnCancel = document.querySelector('#btn-cancel');
 const divExpreince = document.querySelector('#worker-form');
 const divWorkers = document.querySelector('#workers');
-const body = document.querySelector('#main'); 
+const body = document.querySelector('#main');
 
 function getDataFromLocalStorage() {
     const data = localStorage.getItem(STOCAGEKEY);
@@ -43,6 +42,7 @@ function attachEventsToEmplyeeActionBtns() {
 function openModal(id = null) {
     changeId = id;
     modal.style.display = 'flex';
+    validationForm();
     if (changeId) {
         const allWorkers = getDataFromLocalStorage();
         const worker = allWorkers.find(item =>
@@ -60,9 +60,9 @@ function openModal(id = null) {
         })
     }
 }
-function detailsWorker(worker){
-      const modalWorkerDetails = document.createElement('div');
-      modalWorkerDetails.innerHTML = `<div class="fixed inset-0 flex z-50 items-center justify-center">
+function detailsWorker(worker) {
+    const modalWorkerDetails = document.createElement('div');
+    modalWorkerDetails.innerHTML = `<div class="fixed inset-0 flex z-50 items-center justify-center">
             <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative">
                 <button id="closeModel" class="text-amber-100 absolute  right-5 top-1">X</button>
                 <form id="worker-form" class="space-y-4">
@@ -96,14 +96,14 @@ function detailsWorker(worker){
 
             </div>
         </div>`;
-        const btnCloseModalDetails =modalWorkerDetails.querySelector("#closeModel");
-        btnCloseModalDetails.addEventListener('click',()=>{
-            modalWorkerDetails.remove();
-        })
-        const expreincesDetails = modalWorkerDetails.querySelector("#expreinces-details");
-        worker.expreinces.forEach(exp => {
-            addExprience(exp , expreincesDetails)
-        })
+    const btnCloseModalDetails = modalWorkerDetails.querySelector("#closeModel");
+    btnCloseModalDetails.addEventListener('click', () => {
+        modalWorkerDetails.remove();
+    })
+    const expreincesDetails = modalWorkerDetails.querySelector("#expreinces-details");
+    worker.expreinces.forEach(exp => {
+        addExprience(exp, expreincesDetails)
+    })
     body.append(modalWorkerDetails);
 }
 function closeModel() {
@@ -119,6 +119,7 @@ function infosWorker() {
     const url = divExpreince.querySelector('#photoUrl').value;
     const email = divExpreince.querySelector('#email').value;
     const phone = divExpreince.querySelector('#phone').value;
+    let inputs = [name, role, url, email, phone];
 
     const companies = expreinces.querySelectorAll(".company");
     const rolesE = expreinces.querySelectorAll(".role");
@@ -126,25 +127,25 @@ function infosWorker() {
     const toDate = expreinces.querySelectorAll(".to-date");
     let expp = [];
 
-    for (let i = 0; i < companies.length; i++) {
-        expp.push({
-            company: companies[i].value,
-            role: rolesE[i].value,
-            formDate: formDate[i].value,
-            toDate: toDate[i].value
-        });
-        workerInfos.push({
-            id: genretid(),
-            name,
-            role,
-            url,
-            email,
-            phone,
-            expreinces: expp
-        });
+    // for (let i = 0; i < companies.length; i++) {
+    //     expp.push({
+    //         company: companies[i].value,
+    //         role: rolesE[i].value,
+    //         formDate: formDate[i].value,
+    //         toDate: toDate[i].value
+    //     });
+    //     workerInfos.push({
+    //         id: genretid(),
+    //         name,
+    //         role,
+    //         url,
+    //         email,
+    //         phone,
+    //         expreinces: expp
+    //     });
 
-    }
-    return workerInfos;
+    // }
+    return inputs;
 }
 function videInputs() {
     divExpreince.querySelector('#worker-id').value = "";
@@ -156,7 +157,8 @@ function videInputs() {
     divExpreince.querySelector('#phone').value = "";
 }
 function saveWorker() {
-
+    let isValide =validationForm();
+    console.log(isValide);
     let newData = getDataFromLocalStorage();
     const id = divExpreince.querySelector('#worker-id').value;
     const name = divExpreince.querySelector('#name').value;
@@ -169,18 +171,26 @@ function saveWorker() {
     const rolesE = expreinces.querySelectorAll(".role");
     const formDate = expreinces.querySelectorAll(".form-date");
     const toDate = expreinces.querySelectorAll(".to-date");
+    const errorDate = expreinces.querySelectorAll(".errorDate");
     idWorker = newData.find(worker => worker.id == id)
     let expp = [];
 
     for (let i = 0; i < companies.length; i++) {
-        expp.push({
-            company: companies[i].value,
-            role: rolesE[i].value,
-            formDate: formDate[i].value,
-            toDate: toDate[i].value
-        });
+        if (companies[i].value == "") {
+            continue;
+        } else {
+            if(formDate[i].value > toDate[i].value){
+                errorDate[i].textContent ="Date from must be great then date to";
+                return;
+            }
+            expp.push({
+                company: companies[i].value,
+                role: rolesE[i].value,
+                formDate: formDate[i].value,
+                toDate: toDate[i].value
+            });
+        }
     }
-    console.log(idWorker);
     if (idWorker) {
 
         idWorker.name = name;
@@ -192,6 +202,15 @@ function saveWorker() {
         console.log(idWorker.name);
     }
     else {
+        let isExisit = newData.find(worker => worker.email == email)
+        if (isExisit) {
+            alert("this worker is already exisit");
+            return
+        }
+        console.log(isValide);
+        if(!isValide){
+            return;
+        }
         newData.push({
             id: genretid(),
             name,
@@ -209,6 +228,38 @@ function saveWorker() {
     listeWorkers();
     videInputs();
 }
+function validationForm() {
+    let isValide = true;
+    const email = divExpreince.querySelector('#email');
+    const phone = divExpreince.querySelector('#phone');
+    const errorEmail = divExpreince.querySelector('#errorEmail');
+    const errorPhone = divExpreince.querySelector('#errorPhone');
+
+    email.addEventListener('change', () => {
+        if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            email.style.borderColor = "red";
+            errorEmail.textContent = "Invalid Email.";
+            isValide = false;
+        } else {
+            errorEmail.textContent = "";
+            email.style.borderColor = "black";
+            isValide= true;
+        }
+    })
+    phone.addEventListener('change', () => {
+        if (!phone.value.match(/(\+212|0)([ \-_/]*)(\d[ \-_/]*){9}/)) {
+            phone.style.borderColor = "red";
+            errorPhone.textContent = "Invalid Phone.";
+            isValide=false;
+        } else {
+            errorPhone.textContent = "";
+            phone.style.borderColor = "black";
+            isValide=true;
+        }
+    })
+ return isValide;
+
+}
 
 
 function deleteFormExprience() {
@@ -219,8 +270,8 @@ function deleteFormExprience() {
 }
 function addExprience(exprience = null, place = null) {
     const div = document.createElement('div');
-     if(place){
-         div.innerHTML += `<div class="exprince grid grid-cols-2 gap-2 bg-gray-300 rounded-2xl p-4">
+    if (place) {
+        div.innerHTML += `<div class="exprince grid grid-cols-2 gap-2 bg-gray-300 rounded-2xl p-4">
                                         <label for="">company :</label>
                                         <p>${exprience.company}</p>
                                         <label for="">role :</label>
@@ -231,25 +282,29 @@ function addExprience(exprience = null, place = null) {
                                         </label>
                                         <p>${exprience.toDate}</p>
                             </div>` ;
-    place.append(div);
-   }else{
-     div.innerHTML += `<div class="exprince flex flex-col gap-2 bg-gray-300 rounded-2xl p-4">
+        place.append(div);
+    } else {
+        div.innerHTML += `<div class="exprince flex flex-col gap-2 bg-gray-300 rounded-2xl p-4">
                                         <label for="">company :</label>
-                                        <input value="${exprience?.company || ''}"  type="text" class="company px-3 py-2 border border-gray-300 rounded-lg 
+                                        <input required value="${exprience?.company || ''}"  type="text" class="company px-3 py-2 border border-gray-300 rounded-lg 
                                         focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         <label for="">role :</label>
-                                        <input value="${exprience?.role || ''}" type="text" class="role px-3 py-2 border border-gray-300 rounded-lg 
+                                        <input required value="${exprience?.role || ''}" type="text" class="role px-3 py-2 border border-gray-300 rounded-lg 
                                         focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         <label for="">form :</label>
-                                        <input value="${exprience?.formDate || ''}"  class="form-date" type="date" class="px-3 py-2 border border-gray-300 rounded-lg 
+                                        <input required value="${exprience?.formDate || ''}"  class="form-date" type="date" class="px-3 py-2 border border-gray-300 rounded-lg 
                                         ">
                                         <label for="">to :
                                         </label>
-                                        <input value="${exprience?.toDate || ''}" class="to-date" type="date" class="px-3 py-2 border border-gray-300 rounded-lg 
+                                        <input required value="${exprience?.toDate || ''}" class="to-date" type="date" class="px-3 py-2 border border-gray-300 rounded-lg 
                                         ">
+                                        <p class="errorDate text-red-400"></p>
                             </div>` ;
-    expreinces.append(div);
-   } 
+        expreinces.append(div);
+    }
+}
+function checkDateExprience(){
+
 }
 function changePhoto() {
     const newUrl = avatar.value;
@@ -287,7 +342,7 @@ function renderWorker(worker) {
                         <button class="btn-edite-worker" id=${worker.id}><i class="fa-solid fa-pen"></i></button>
                     </div>`
 
-    divWorker.querySelector(".cartWorker").addEventListener('click',()=>{
+    divWorker.querySelector(".cartWorker").addEventListener('click', () => {
         detailsWorker(worker);
     })
     divWorkers.append(divWorker);
@@ -308,7 +363,7 @@ function initialisation() {
         addExprience()
     });
 
-    btnSubmit.addEventListener('click', (e) => {
+    divExpreince.addEventListener('submit', (e) => {
         e.preventDefault();
         saveWorker();
     })
