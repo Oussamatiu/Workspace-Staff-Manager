@@ -19,6 +19,15 @@ const divCartsWorkers = document.querySelector('#cartsWorkers');
 const btn = divCartsWorkers.querySelector('#closeModelCarts');
 
 console.log(buttonZones);
+document.addEventListener('DOMContentLoaded',restart);
+
+function restart(){
+    let data = getDataFromLocalStorage();
+    data.forEach(worker => {
+        worker.place ="unassigned";
+    })
+}
+
 
 function getDataFromLocalStorage() {
     const data = localStorage.getItem(STOCAGEKEY);
@@ -358,7 +367,9 @@ function createModel(workers , btnPlace) {
 
    btns.forEach(btn=>{
     btn.addEventListener('click',()=>{
-        console.log(btn.getAttribute('id'));
+        
+        
+        
         let data = getDataFromLocalStorage();
         const worker = data.filter(worker=> worker.id == btn.getAttribute('id'));
         console.log(worker);
@@ -366,7 +377,8 @@ function createModel(workers , btnPlace) {
         worker.place = "assigned";
         sendDataToLocalStorage(data);
         listeWorkers();
-        btnPlace.parentElement.innerHTML +=`<div class="workerCart flex w-full top-1 justify-between p-2 bg-amber-400">
+        const contTR = btnPlace.parentElement.getElementsByClassName("cont")[0];
+        contTR.innerHTML +=`<div class="workerCart flex w-full top-1 justify-between p-2 bg-amber-400">
                 <div class="cartWorker flex gap-2 items-center">
                     <img class="w-16 h-16 rounded-full" src="${worker.url}">
                     <div>
@@ -376,7 +388,10 @@ function createModel(workers , btnPlace) {
                 </div>
                 <button class="btn-add-worker-in-Zone" id="${worker.id}">X</button>
             </div> `
+            
+            console.log(contTR);
      })
+      
         
         modalCarts.style.display = "none";
     })
