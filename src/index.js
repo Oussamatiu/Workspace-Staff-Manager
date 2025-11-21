@@ -14,6 +14,11 @@ const btnCancel = document.querySelector('#btn-cancel');
 const divExpreince = document.querySelector('#worker-form');
 const divWorkers = document.querySelector('#workers');
 const body = document.querySelector('#main');
+const buttonZones = document.querySelector('.images').querySelectorAll('button');
+const divCartsWorkers = document.querySelector('#cartsWorkers');
+const btn = divCartsWorkers.querySelector('#closeModelCarts');
+
+console.log(buttonZones);
 
 function getDataFromLocalStorage() {
     const data = localStorage.getItem(STOCAGEKEY);
@@ -199,7 +204,6 @@ function saveWorker() {
         idWorker.email = email;
         idWorker.phone = phone;
         idWorker.expreinces = expp;
-        console.log(idWorker.name);
     }
     else {
         let isExisit = newData.find(worker => worker.email == email)
@@ -218,6 +222,7 @@ function saveWorker() {
             url,
             email,
             phone,
+            place : "unassigned",
             expreinces: expp
         });
     }
@@ -320,11 +325,105 @@ function listeWorkers() {
         item.remove();
     })
     const works = getDataFromLocalStorage();
+    let wokersUnassigned = works.filter(worker =>
+        worker.place == "unassigned"
+    )
     console.log(works);
-    works.forEach(worker => {
+    wokersUnassigned.forEach(worker => {
         renderWorker(worker)
     })
     attachEventsToEmplyeeActionBtns();
+}
+function createModel(workers , btnPlace) {
+    const modalCarts = document.querySelector('#modalCarts');
+    modalCarts.style.display = "flex";
+
+    
+
+    workers.forEach(worker => {
+        divCartsWorkers.innerHTML += `
+            <div class="workerCart flex w-full justify-between p-2 bg-amber-400">
+                <div class="cartWorker flex gap-2 items-center">
+                    <img class="w-16 h-16 rounded-full" src="${worker.url}">
+                    <div>
+                        <p>${worker.name}</p>
+                        <p>${worker.role}</p>
+                    </div>
+                </div>
+                <button class="btn-add-worker-in-Zone" id="${worker.id}">Add</button>
+            </div>
+        `
+    });
+   const btns = divCartsWorkers.querySelectorAll('.btn-add-worker-in-Zone');
+
+   btns.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        console.log(btn.getAttribute('id'));
+        let data = getDataFromLocalStorage();
+        const worker = data.filter(worker=> worker.id == btn.getAttribute('id'));
+        console.log(worker);
+     worker.forEach(worker =>{
+        worker.place = "assigned";
+        sendDataToLocalStorage(data);
+        listeWorkers();
+        btnPlace.parentElement.innerHTML +=`<div class="workerCart flex w-full top-1 justify-between p-2 bg-amber-400">
+                <div class="cartWorker flex gap-2 items-center">
+                    <img class="w-16 h-16 rounded-full" src="${worker.url}">
+                    <div>
+                        <p>${worker.name}</p>
+                        <p>${worker.role}</p>
+                    </div>
+                </div>
+                <button class="btn-add-worker-in-Zone" id="${worker.id}">X</button>
+            </div> `
+     })
+        
+        modalCarts.style.display = "none";
+    })
+   })
+
+    
+    
+}
+
+function checkRole(role , btn){
+    const workers = getDataFromLocalStorage();
+    let workersFind;
+    switch(role){
+        case 'staff':
+            createModel(workers , btn);
+            break;
+        case 'server':
+            workersFind = workers.filter(worker=> worker.role == "Techniciens IT" || worker.role == "Manager" || worker.role == "Nettoyage");
+            createModel(workersFind , btn);
+            break;
+        case 'Reception':
+            workersFind = workers.filter(worker=> worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage");
+            console.log(workersFind);
+            createModel(workersFind , btn);
+            break;
+        case 'security':
+            workersFind = workers.filter(worker=> worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage");
+            createModel(workersFind , btn);
+            break;
+        case 'archive':
+            workersFind = workers.filter(worker=> worker.role != "Nettoyage");
+            createModel(workersFind ,btn);
+            break;
+        case 'Conference':
+           createModel(workers ,btn);
+            break;
+        default:
+            break;
+    }
+}
+function attachEventsToZonesActionBtns(){
+    buttonZones.forEach(btn =>{
+        btn.addEventListener('click' ,()=>{
+            console.log(btn.getAttribute('id'));
+           checkRole(btn.getAttribute('id') , btn)
+        })
+    })
 }
 function renderWorker(worker) {
 
@@ -350,7 +449,7 @@ function renderWorker(worker) {
 
 
 function initialisation() {
-
+    attachEventsToZonesActionBtns();
     avatar.addEventListener('input', changePhoto);
     btnCancel.addEventListener('click', closeModel);
     closeModal.addEventListener('click', closeModel);
@@ -367,6 +466,10 @@ function initialisation() {
         e.preventDefault();
         saveWorker();
     })
+    btn.addEventListener('click', () => {
+        divCartsWorkers.querySelectorAll('.workerCart').forEach(div => div.remove());
+        modalCarts.style.display = "none";
+    });
 
     listeWorkers()
 }

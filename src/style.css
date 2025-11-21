@@ -1,0 +1,33 @@
+.images {
+    display: grid;
+    grid-template-columns: repeat(22 ,1fr);
+    grid-template-rows: repeat(22 , 1fr);
+    background-image: url('./images/plan-6918d7e78ba30539026036.jpg');
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+}
+.Conference {
+    grid-column: 1/9;
+    grid-row: 1/9;
+}
+.Reception {
+    grid-column: 1/9;
+    grid-row: 9/23;
+}
+.security{
+    grid-column: 18/25;
+    grid-row: 1/9;
+}
+.server {
+    grid-column: 13/18 ;
+    grid-row: 1/9;
+}
+.staff{
+    grid-column: 13/19 ;
+    grid-row: 15/23;
+}
+.archive{
+      grid-column: 19/25 ;
+      grid-row: 15/23;
+}

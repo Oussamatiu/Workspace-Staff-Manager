@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./output.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
     <script defer src="index.js"></script>
     <title>Workspace Staff Manager</title>
 </head>
@@ -21,13 +22,34 @@
                     Ad new worker
                 </button>
                 <div class="flex flex-col gap-2 w-full overflow-y-auto h-[75vh]" id="workers">
-                    
+
 
                 </div>
             </section>
             <section
-                class="col-span-3 bg-[url('./images/plan-6918d7e78ba30539026036.jpg')] bg-no-repeat bg-center bg-cover relative w-full">
-                <div class="absolute left-32 bottom-[10%]"><button class="px-2 py-1 bg-blue-600 rounded-full">+</button>
+                class="images col-span-3 ">
+                <div
+                    class="Conference bg-[url('./images/Conference_room.webp')] bg-no-repeat bg-center bg-cover relative  ">
+                    <button id="Conference" class="px-2 py-1 bg-blue-600 rounded-full absolute bottom-2 right-[50%]">+</button>
+                </div>
+                <div class="archive bg-[url('./images/archive.webp')] bg-no-repeat bg-center bg-cover relative  ">
+                    <button id="archive" class="px-2 py-1 bg-blue-600 rounded-full absolute bottom-2 right-[50%]">+</button>
+                </div>
+                <div class="security bg-[url('./images/security.webp')] bg-no-repeat bg-center bg-cover relative ">
+                    <button id="security" class="px-2 py-1 bg-blue-600 rounded-full absolute bottom-2 right-[50%]">+</button>
+                </div>
+                <div
+                    class="Reception bg-[url('./images/Reception.webp')] bg-no-repeat bg-center bg-cover relative ">
+                    <button id="Reception" class="px-2 py-1 bg-blue-600 rounded-full absolute bottom-2 right-[50%]">+</button>
+                </div>
+                <div class="server bg-[url('./images/server.webp')] bg-no-repeat bg-center bg-cover relative ">
+                    <button id="server" class="px-2 py-1 bg-blue-600 rounded-full absolute bottom-2 right-[50%]">+</button>
+                </div>
+                <div class="staff bg-[url('./images/staff.webp')] bg-no-repeat bg-center bg-cover relative ">
+                    <button id="staff" class="px-2 py-1 bg-blue-600 rounded-full absolute bottom-2 right-[50%]">+</button>
+                </div>
+
+                <!-- <div class="absolute left-32 bottom-[10%]"><button class="px-2 py-1 bg-blue-600 rounded-full">+</button>
                 </div>
                 <div class="absolute left-32 top-40"><button class="px-2 py-1 bg-blue-600 rounded-full">+</button></div>
                 <div class="absolute left-[65%] top-40"><button class="px-2 py-1 bg-blue-600 rounded-full">+</button>
@@ -37,7 +59,7 @@
                 <div class="absolute left-[65%] bottom-[25%]"><button
                         class="px-2 py-1 bg-blue-600 rounded-full">+</button></div>
                 <div class="absolute left-[90%] bottom-[25%]"><button
-                        class="px-2 py-1 bg-blue-600 rounded-full">+</button></div>
+                        class="px-2 py-1 bg-blue-600 rounded-full">+</button></div> -->
             </section>
         </div>
 
@@ -45,23 +67,23 @@
             <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative">
                 <button id="closeModel" class="text-amber-100 absolute right-5 top-1">X</button>
                 <form id="worker-form" class="space-y-4">
-                    <input type="hidden" id="worker-id" >
+                    <input type="hidden" id="worker-id">
                     <div class="flex flex-col gap-2">
                         <label for="">name :</label>
                         <input id="name" type="text" required class=" px-3 py-2 border border-gray-300 rounded-lg 
                            focus:outline-none focus:ring-2 focus:ring-blue-500">
-                           <p id="errorName"></p>
+                        <p id="errorName"></p>
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="">role :</label>
                         <select class="px-3 py-2 border border-gray-300 rounded-lg" name="" id="role" required>
                             <option value="">Your role</option>
-                            <option value="Salle des serveurs">Salle des serveurs</option>
-                            <option value="Réception">Réception</option>
+                            <option value="Techniciens IT">Techniciens IT</option>
+                            <option value="Reception">Reception</option>
                             <option value="Manager">Manager</option>
-                            <option value="Salle de conférence">Salle de conférence</option>
+                            <option value="security">security</option>
                             <option value="Nettoyage">Nettoyage</option>
-                            <option value="Salle de sécurité">Salle de sécurité</option>
+                            <option value="Conference">Conference</option>
                             <option value="Autres rôles">Autres rôles</option>
                         </select>
                     </div>
@@ -72,19 +94,19 @@
 
                         <input id="photoUrl" placeholder="Photo URL" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg 
                            focus:outline-none focus:ring-2 focus:ring-blue-500">
-                           <p id="errorUrl"></p>
+                        <p id="errorUrl"></p>
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="">email :</label>
                         <input id="email" type="email" class=" px-3 py-2 border border-gray-300 rounded-lg 
                            focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                           <p id="errorEmail" class="text-red-600"></p>
+                        <p id="errorEmail" class="text-red-600"></p>
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="">Phone :</label>
                         <input id="phone" type="tel" required class=" px-3 py-2 border border-gray-300 rounded-lg 
                            focus:outline-none focus:ring-2 focus:ring-blue-500">
-                           <p id="errorPhone"></p>
+                        <p id="errorPhone"></p>
                     </div>
                     <div id="expreinces" class="flex flex-col gap-2">
 
@@ -98,7 +120,14 @@
 
             </div>
         </div>
-        
+          <div id="modalCarts" class="fixed inset-0 hidden z-50 items-center justify-center">
+            <div id="cartsWorkers" class=" bg-white rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative">
+                <button id="closeModelCarts" class="text-amber-100 absolute right-5 top-1">X</button>
+                
+
+            </div>
+        </div>
+
 
 
 
