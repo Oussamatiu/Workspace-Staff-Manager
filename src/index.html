@@ -13,9 +13,9 @@
 
 <body>
     <main class="w-full" id="main">
-        <div class="container grid grid-cols-4 h-[100vh] bg-amber-100 py-5 px-3 gap-2">
-            <section class="side-bar h-full border border-black flex flex-col gap-2 items-center p-3">
-                <h1 class="text-2xl font-medium">
+        <div class="container grid grid-cols-4 h-[100vh] bg-black py-3 px-2 gap-2">
+            <section class="side-bar h-full rounded-md border border-black bg-[#26261b]  flex flex-col gap-2 items-center p-3 bg">
+                <h1 class="text-white text-2xl font-medium">
                     staff-mambers
                 </h1>
                 <button id="btn-add-worker" class=" w-full py-3 bg-amber-50 hover:bg-blue-300 transition duration-700">
@@ -29,20 +29,20 @@
             <section
                 class="images col-span-3 ">
                 <div
-                    class="Conference bg-[url('./images/Conference_room.webp')] bg-no-repeat bg-center bg-cover relative  ">
+                    class="Conference bg-[url('./images/Conference_room.webp')] bg-no-repeat bg-center bg-cover relative overflow-y-auto ">
                     <div class="cont"></div>
                     <button id="Conference" class="px-2 py-1 bg-blue-600 rounded-full absolute bottom-2 right-[50%]">+</button>
                 </div>
-                <div class="archive bg-[url('./images/archive.webp')] bg-no-repeat bg-center bg-cover relative  ">
+                <div class="archive bg-[url('./images/archive.webp')] bg-no-repeat bg-center bg-cover relative  overflow-y-auto">
                     <div class="cont"></div>
                     <button id="archive" class="px-2 py-1 bg-blue-600 rounded-full absolute bottom-2 right-[50%]">+</button>
                 </div>
-                <div class="security bg-[url('./images/security.webp')] bg-no-repeat bg-center bg-cover relative ">
+                <div class="security bg-[url('./images/security.webp')] bg-no-repeat bg-center bg-cover relative overflow-y-auto">
                     <div class="cont"></div>
                     <button id="security" class="px-2 py-1 bg-blue-600 rounded-full absolute bottom-2 right-[50%]">+</button>
                 </div>
                 <div
-                    class="Reception bg-[url('./images/Reception.webp')] bg-no-repeat bg-center bg-cover relative ">
+                    class="Reception bg-[url('./images/Reception.webp')] bg-no-repeat bg-center bg-cover relative overflow-y-auto">
                     <div class="cont"></div>
                     <button id="Reception" class="px-2 py-1 bg-blue-600 rounded-full absolute bottom-2 right-[50%]">+</button>
                 </div>
@@ -70,19 +70,19 @@
         </div>
 
         <div id="modal" class="fixed inset-0 hidden z-50 items-center justify-center">
-            <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative">
+            <div class="bg-black rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative">
                 <button id="closeModel" class="text-amber-100 absolute right-5 top-1">X</button>
                 <form id="worker-form" class="space-y-4">
                     <input type="hidden" id="worker-id">
                     <div class="flex flex-col gap-2">
-                        <label for="">name :</label>
-                        <input id="name" type="text" required class=" px-3 py-2 border border-gray-300 rounded-lg 
+                        <label class="text-white" for="">name :</label>
+                        <input id="name" type="text" required class="text-white px-3 py-2 border border-gray-300 rounded-lg 
                            focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <p id="errorName"></p>
                     </div>
                     <div class="flex flex-col gap-2">
-                        <label for="">role :</label>
-                        <select class="px-3 py-2 border border-gray-300 rounded-lg" name="" id="role" required>
+                        <label class="text-white" for="">role :</label>
+                        <select class="text-white px-3 py-2 border border-gray-300 rounded-lg" name="" id="role" required>
                             <option value="">Your role</option>
                             <option value="Techniciens IT">Techniciens IT</option>
                             <option value="Reception">Reception</option>
@@ -98,18 +98,18 @@
                             src="https://imgs.search.brave.com/IZK862jIKGBRPE7eNDkXhvPvuqDL8TNq0hHfIQs2MGg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTMy/NzU5MjQ0OS92ZWN0/b3IvZGVmYXVsdC1h/dmF0YXItcGhvdG8t/cGxhY2Vob2xkZXIt/aWNvbi1ncmV5LXBy/b2ZpbGUtcGljdHVy/ZS1idXNpbmVzcy1t/YW4uanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPXlxb29zN2c5/am11ZkpoZmtiUXNr/LW1kaEtFc2loNkRp/NFdaNjZ0X2liN0k9"
                             alt="Photo preview" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300">
 
-                        <input id="photoUrl" placeholder="Photo URL" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg 
+                        <input id="photoUrl" placeholder="Photo URL" class="text-white flex-1 px-3 py-2 border border-gray-300 rounded-lg 
                            focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <p id="errorUrl"></p>
                     </div>
                     <div class="flex flex-col gap-2">
-                        <label for="">email :</label>
-                        <input id="email" type="email" class=" px-3 py-2 border border-gray-300 rounded-lg 
+                        <label class="text-white" for="">email :</label>
+                        <input id="email" type="email" class="text-white px-3 py-2 border border-gray-300 rounded-lg 
                            focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                         <p id="errorEmail" class="text-red-600"></p>
                     </div>
                     <div class="flex flex-col gap-2">
-                        <label for="">Phone :</label>
+                        <label class="text-white" for="">Phone :</label>
                         <input id="phone" type="tel" required class=" px-3 py-2 border border-gray-300 rounded-lg 
                            focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <p id="errorPhone"></p>
@@ -128,7 +128,8 @@
         </div>
           <div id="modalCarts" class="fixed inset-0 hidden z-50 items-center justify-center">
             <div id="cartsWorkers" class=" bg-white rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative">
-                <button id="closeModelCarts" class="text-amber-100 absolute right-5 top-1">X</button>
+                <button id="closeModelCarts"  class="text-black text-2xl absolute right-5 top-1 mb-5 ">X</button>
+                <div class="carts flex flex-col gap-1 mt-4"></div>
                 
 
             </div>

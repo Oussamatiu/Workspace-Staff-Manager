@@ -17,15 +17,25 @@ const body = document.querySelector('#main');
 const buttonZones = document.querySelector('.images').querySelectorAll('button');
 const divCartsWorkers = document.querySelector('#cartsWorkers');
 const btn = divCartsWorkers.querySelector('#closeModelCarts');
+const modalCarts = document.querySelector('#modalCarts');
+btn.addEventListener('click', ()=>{
+    console.log('dd')
+    modalCarts.style.display = "none";
+})
 
-console.log(buttonZones);
-document.addEventListener('DOMContentLoaded',restart);
+
+document.addEventListener('DOMContentLoaded',()=>{
+ restart();
+});
 
 function restart(){
     let data = getDataFromLocalStorage();
     data.forEach(worker => {
-        worker.place ="unassigned";
+        console.log(worker)
+        worker.place = "unassigned";
     })
+    sendDataToLocalStorage(data);
+    listeWorkers();
 }
 
 
@@ -317,9 +327,7 @@ function addExprience(exprience = null, place = null) {
         expreinces.append(div);
     }
 }
-function checkDateExprience(){
 
-}
 function changePhoto() {
     const newUrl = avatar.value;
     photoPreview.setAttribute('src', newUrl);
@@ -344,14 +352,21 @@ function listeWorkers() {
     attachEventsToEmplyeeActionBtns();
 }
 function createModel(workers , btnPlace) {
-    const modalCarts = document.querySelector('#modalCarts');
+     const carts = modalCarts.querySelector('.carts');
+
     modalCarts.style.display = "flex";
 
-    
-
-    workers.forEach(worker => {
-        divCartsWorkers.innerHTML += `
+    if(!workers.length){
+        carts.innerHTML +=  `
             <div class="workerCart flex w-full justify-between p-2 bg-amber-400">
+               <p class="text-2xl text-center">don't exist any worker here</p>
+            </div>
+        `
+    }
+console.log(workers.length);
+    workers.forEach(worker => {
+        carts.innerHTML += `
+            <div class="workerCart flex w-full justify-between p-2 bg-[#4b5154] rounded-md">
                 <div class="cartWorker flex gap-2 items-center">
                     <img class="w-16 h-16 rounded-full" src="${worker.url}">
                     <div>
@@ -367,38 +382,40 @@ function createModel(workers , btnPlace) {
 
    btns.forEach(btn=>{
     btn.addEventListener('click',()=>{
-        
-        
-        
         let data = getDataFromLocalStorage();
         const worker = data.filter(worker=> worker.id == btn.getAttribute('id'));
         console.log(worker);
-     worker.forEach(worker =>{
+        worker.forEach(worker =>{
         worker.place = "assigned";
         sendDataToLocalStorage(data);
         listeWorkers();
         const contTR = btnPlace.parentElement.getElementsByClassName("cont")[0];
-        contTR.innerHTML +=`<div class="workerCart flex w-full top-1 justify-between p-2 bg-amber-400">
+        contTR.innerHTML +=`<div class="workerCart flex w-10 h-8 top-1 justify-between p-2 bg-[#4b5154] rounded-md">
                 <div class="cartWorker flex gap-2 items-center">
-                    <img class="w-16 h-16 rounded-full" src="${worker.url}">
+                    <img class="w-11 h-11 rounded-full" src="${worker.url}">
                     <div>
                         <p>${worker.name}</p>
                         <p>${worker.role}</p>
                     </div>
                 </div>
-                <button class="btn-add-worker-in-Zone" id="${worker.id}">X</button>
-            </div> `
+                <button class="btn-delete-worker-in-Zone" id="${worker.id}">X</button>
+            </div> `;
             
             console.log(contTR);
      })
-      
-        
-        modalCarts.style.display = "none";
+     carts.querySelectorAll('.btn-delete-worker-in-Zone').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+         btn.parentElement.remove();
+     })
+     })
+      modalCarts.style.display = "none";
+      carts.querySelectorAll('div').forEach(div =>{
+            div.remove();
+        })
     })
-   })
-
-    
-    
+        
+        
+   })  
 }
 
 function checkRole(role , btn){
@@ -406,27 +423,29 @@ function checkRole(role , btn){
     let workersFind;
     switch(role){
         case 'staff':
-            createModel(workers , btn);
+            workersFind = workers.filter(worker=> worker.place != "assigned");
+            createModel(workersFind ,btn);
             break;
         case 'server':
-            workersFind = workers.filter(worker=> worker.role == "Techniciens IT" || worker.role == "Manager" || worker.role == "Nettoyage");
+            workersFind = workers.filter(worker=> (worker.role == "Techniciens IT" || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned" );
             createModel(workersFind , btn);
             break;
         case 'Reception':
-            workersFind = workers.filter(worker=> worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage");
+            workersFind = workers.filter(worker=> (worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned");
             console.log(workersFind);
             createModel(workersFind , btn);
             break;
         case 'security':
-            workersFind = workers.filter(worker=> worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage");
+            workersFind = workers.filter(worker=> (worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned");
             createModel(workersFind , btn);
             break;
         case 'archive':
-            workersFind = workers.filter(worker=> worker.role != "Nettoyage");
+            workersFind = workers.filter(worker=> (worker.role != "Nettoyage") && worker.place != "assigned");
             createModel(workersFind ,btn);
             break;
         case 'Conference':
-           createModel(workers ,btn);
+            workersFind = workers.filter(worker=> worker.place != "assigned");
+           createModel(workersFind ,btn);
             break;
         default:
             break;
@@ -444,13 +463,13 @@ function renderWorker(worker) {
 
     const divWorker = document.createElement('div');
     divWorker.innerHTML = `
-    <div class="flex w-full justify-between p-2 bg-amber-400 ">
+    <div class="flex w-full justify-between p-2 bg-[#4b5154] rounded-md ">
                         <div class="cartWorker flex gap-2 items-center">
                             <img class="w-16 h-16 rounded-full"
                                 src="${worker.url}">
                             <div>
-                                <p>${worker.name}</p>
-                                <p>${worker.role}</p>
+                                <p class="text-white text-xl">${worker.name}</p>
+                                <p class="">${worker.role}</p>
                             </div>
                         </div>
                         <button class="btn-edite-worker" id=${worker.id}><i class="fa-solid fa-pen"></i></button>
