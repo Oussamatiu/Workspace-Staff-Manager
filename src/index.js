@@ -18,17 +18,20 @@ const buttonZones = document.querySelector('.images').querySelectorAll('button')
 const divCartsWorkers = document.querySelector('#cartsWorkers');
 const btn = divCartsWorkers.querySelector('#closeModelCarts');
 const modalCarts = document.querySelector('#modalCarts');
-btn.addEventListener('click', ()=>{
+const carts = modalCarts.querySelector('.carts');
+
+btn.addEventListener('click', () => {
     console.log('dd')
     modalCarts.style.display = "none";
 })
+ 
 
 
-document.addEventListener('DOMContentLoaded',()=>{
- restart();
+document.addEventListener('DOMContentLoaded', () => {
+    restart();
 });
 
-function restart(){
+function restart() {
     let data = getDataFromLocalStorage();
     data.forEach(worker => {
         console.log(worker)
@@ -87,8 +90,8 @@ function openModal(id = null) {
 function detailsWorker(worker) {
     const modalWorkerDetails = document.createElement('div');
     modalWorkerDetails.innerHTML = `<div class="fixed inset-0 flex z-50 items-center justify-center">
-            <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative">
-                <button id="closeModel" class="text-amber-100 absolute  right-5 top-1">X</button>
+            <div class="bg-black rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative">
+                <button id="closeModel" class="text-white absolute  right-5 top-1"><i class="fa-solid fa-x"></i></button>
                 <form id="worker-form" class="space-y-4">
                     <input type="hidden" id="worker-id" >
                     <div class="flex items-center gap-4">
@@ -97,21 +100,21 @@ function detailsWorker(worker) {
                             alt="Photo preview" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300">
                     </div>
                     <div class="flex gap-2">
-                        <label for="">name :</label>
-                        <p>${worker.name}</p>
+                        <label for="" class ="text-white">name :</label>
+                        <p class ="text-white">${worker.name}</p>
                     </div>
                     <div class="flex gap-2">
-                        <label for="">role :</label>
-                        <p>${worker.role}</p>
+                        <label for="" class ="text-white">role :</label>
+                        <p class ="text-white">${worker.role}</p>
                     </div>
                     
                     <div class="flex gap-2">
-                        <label for="">email :</label>
-                        <p>${worker.email}</p>
+                        <label for="" class ="text-white">email :</label>
+                        <p class ="text-white">${worker.email}</p>
                     </div>
                     <div class="flex gap-2">
-                        <label for="">Phone :</label>
-                        <p>${worker.phone}</p>
+                        <label for="" class ="text-white">Phone :</label>
+                        <p class ="text-white">${worker.phone}</p>
                     </div>
                     <div id="expreinces-details" class="flex flex-col gap-2">
                     
@@ -181,7 +184,7 @@ function videInputs() {
     divExpreince.querySelector('#phone').value = "";
 }
 function saveWorker() {
-    let isValide =validationForm();
+    let isValide = validationForm();
     console.log(isValide);
     let newData = getDataFromLocalStorage();
     const id = divExpreince.querySelector('#worker-id').value;
@@ -203,8 +206,8 @@ function saveWorker() {
         if (companies[i].value == "") {
             continue;
         } else {
-            if(formDate[i].value > toDate[i].value){
-                errorDate[i].textContent ="Date from must be great then date to";
+            if (formDate[i].value > toDate[i].value) {
+                errorDate[i].textContent = "Date from must be great then date to";
                 return;
             }
             expp.push({
@@ -231,7 +234,7 @@ function saveWorker() {
             return
         }
         console.log(isValide);
-        if(!isValide){
+        if (!isValide) {
             return;
         }
         newData.push({
@@ -241,7 +244,7 @@ function saveWorker() {
             url,
             email,
             phone,
-            place : "unassigned",
+            place: "unassigned",
             expreinces: expp
         });
     }
@@ -267,21 +270,21 @@ function validationForm() {
         } else {
             errorEmail.textContent = "";
             email.style.borderColor = "black";
-            isValide= true;
+            isValide = true;
         }
     })
     phone.addEventListener('change', () => {
         if (!phone.value.match(/(\+212|0)([ \-_/]*)(\d[ \-_/]*){9}/)) {
             phone.style.borderColor = "red";
             errorPhone.textContent = "Invalid Phone.";
-            isValide=false;
+            isValide = false;
         } else {
             errorPhone.textContent = "";
             phone.style.borderColor = "black";
-            isValide=true;
+            isValide = true;
         }
     })
- return isValide;
+    return isValide;
 
 }
 
@@ -295,7 +298,7 @@ function deleteFormExprience() {
 function addExprience(exprience = null, place = null) {
     const div = document.createElement('div');
     if (place) {
-        div.innerHTML += `<div class="exprince grid grid-cols-2 gap-2 bg-gray-300 rounded-2xl p-4">
+        div.innerHTML += `<div class="exprince grid grid-cols-2 gap-2 bg-gray-300 rounded-2xl p-2">
                                         <label for="">company :</label>
                                         <p>${exprience.company}</p>
                                         <label for="">role :</label>
@@ -310,17 +313,17 @@ function addExprience(exprience = null, place = null) {
     } else {
         div.innerHTML += `<div class="exprince flex flex-col gap-2 bg-gray-300 rounded-2xl p-4">
                                         <label for="">company :</label>
-                                        <input required value="${exprience?.company || ''}"  type="text" class="company px-3 py-2 border border-gray-300 rounded-lg 
-                                        focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <input required value="${exprience?.company || ''}"  type="text" class="company px-3 py-2 border border-black rounded-lg 
+                                        focus:outline-none focus:ring-1 focus:ring-blue-500 ">
                                         <label for="">role :</label>
-                                        <input required value="${exprience?.role || ''}" type="text" class="role px-3 py-2 border border-gray-300 rounded-lg 
-                                        focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <input required value="${exprience?.role || ''}" type="text" class="role px-3 py-2 border border-black rounded-lg 
+                                        focus:outline-none focus:ring-1 focus:ring-blue-500 ">
                                         <label for="">form :</label>
-                                        <input required value="${exprience?.formDate || ''}"  class="form-date" type="date" class="px-3 py-2 border border-gray-300 rounded-lg 
+                                        <input required value="${exprience?.formDate || ''}"  class="form-date" type="date" class="px-3 py-2 border border-black rounded-lg 
                                         ">
                                         <label for="">to :
                                         </label>
-                                        <input required value="${exprience?.toDate || ''}" class="to-date" type="date" class="px-3 py-2 border border-gray-300 rounded-lg 
+                                        <input required value="${exprience?.toDate || ''}" class="to-date" type="date" class="px-3 py-2 border border-black rounded-lg 
                                         ">
                                         <p class="errorDate text-red-400"></p>
                             </div>` ;
@@ -351,119 +354,132 @@ function listeWorkers() {
     })
     attachEventsToEmplyeeActionBtns();
 }
-function createModel(workers , btnPlace) {
-     const carts = modalCarts.querySelector('.carts');
+function createModel(workers, btnPlace) {
+    
 
     modalCarts.style.display = "flex";
 
-    if(!workers.length){
-        carts.innerHTML +=  `
-            <div class="workerCart flex w-full justify-between p-2 bg-amber-400">
-               <p class="text-2xl text-center">don't exist any worker here</p>
+    if (!workers.length) {
+        carts.innerHTML += `
+            <div class="workerCart flex w-full justify-between p-2">
+               <p class="text-2xl mx-auto text-white">don't exist any worker here</p>
             </div>
         `
     }
-console.log(workers.length);
+    console.log(workers.length);
     workers.forEach(worker => {
         carts.innerHTML += `
             <div class="workerCart flex w-full justify-between p-2 bg-[#4b5154] rounded-md">
                 <div class="cartWorker flex gap-2 items-center">
                     <img class="w-16 h-16 rounded-full" src="${worker.url}">
-                    <div>
+                    <div class="leading-tight">
                         <p>${worker.name}</p>
                         <p>${worker.role}</p>
                     </div>
                 </div>
-                <button class="btn-add-worker-in-Zone" id="${worker.id}">Add</button>
+                <button class="btn-add-worker-in-Zone hover:cursor-pointer" id="${worker.id}">ADD</button>
             </div>
         `
     });
-   const btns = divCartsWorkers.querySelectorAll('.btn-add-worker-in-Zone');
+    const btns = divCartsWorkers.querySelectorAll('.btn-add-worker-in-Zone');
 
-   btns.forEach(btn=>{
-    btn.addEventListener('click',()=>{
-        let data = getDataFromLocalStorage();
-        const worker = data.filter(worker=> worker.id == btn.getAttribute('id'));
-        console.log(worker);
-        worker.forEach(worker =>{
-        worker.place = "assigned";
-        sendDataToLocalStorage(data);
-        listeWorkers();
-        const contTR = btnPlace.parentElement.getElementsByClassName("cont")[0];
-        contTR.innerHTML +=`<div class="workerCart flex w-10 h-8 top-1 justify-between p-2 bg-[#4b5154] rounded-md">
-                <div class="cartWorker flex gap-2 items-center">
-                    <img class="w-11 h-11 rounded-full" src="${worker.url}">
-                    <div>
-                        <p>${worker.name}</p>
-                        <p>${worker.role}</p>
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            let data = getDataFromLocalStorage();
+            const worker = data.filter(worker => worker.id == btn.getAttribute('id'));
+            console.log(worker);
+            worker.forEach(worker => {
+                worker.place = "assigned";
+                sendDataToLocalStorage(data);
+                listeWorkers();
+                const contTR = btnPlace.parentElement.getElementsByClassName("cont")[0];
+                contTR.innerHTML += `<div class="workerCart flex items-center justify-between p-2 bg-[#4b5154] rounded-lg w-full max-w-[180px]">
+                    <div class="cartWorker flex items-center gap-2">
+                        <img class="w-10 h-10 rounded-full" src="${worker.url}">
+                        <div class="leading-tight">
+                            <p class="text-sm font-semibold">${worker.name}</p>
+                            <p class="text-xs opacity-80">${worker.role}</p>
+                        </div>
                     </div>
-                </div>
-                <button class="btn-delete-worker-in-Zone" id="${worker.id}">X</button>
-            </div> `;
-            
-            console.log(contTR);
-     })
-     carts.querySelectorAll('.btn-delete-worker-in-Zone').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-         btn.parentElement.remove();
-     })
-     })
-      modalCarts.style.display = "none";
-      carts.querySelectorAll('div').forEach(div =>{
-            div.remove();
+                    <button class="btn-delete-worker-in-Zone text-xs px-2 py-1 hover:cursor-pointer" id="${worker.id}" onclick="deleteWorker(this, '${worker.id}')">
+                        <i class="fa-solid fa-x"></i>
+                    </button>
+                </div> `;
+
+                })
+                
+                modalCarts.style.display = "none";
+                carts.querySelectorAll('div').forEach(div => {
+                    div.remove();
+                })
         })
+          
+
     })
-        
-        
-   })  
+    
+
 }
 
-function checkRole(role , btn){
+function deleteWorker(btn, workerId) {
+    const cart = btn.parentElement;
+    let data = getDataFromLocalStorage();
+    const worker = data.find(w => w.id == workerId);
+    if (worker) {
+        worker.place = "unassigned";
+    }
+    sendDataToLocalStorage(data);
+    cart.remove();
+    listeWorkers();
+}
+
+
+function checkRole(role, btn) {
     const workers = getDataFromLocalStorage();
     let workersFind;
-    switch(role){
+    switch (role) {
         case 'staff':
-            workersFind = workers.filter(worker=> worker.place != "assigned");
-            createModel(workersFind ,btn);
+            workersFind = workers.filter(worker => worker.place != "assigned");
+            createModel(workersFind, btn);
             break;
         case 'server':
-            workersFind = workers.filter(worker=> (worker.role == "Techniciens IT" || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned" );
-            createModel(workersFind , btn);
+            workersFind = workers.filter(worker => (worker.role == "Techniciens IT" || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned");
+            createModel(workersFind, btn);
             break;
         case 'Reception':
-            workersFind = workers.filter(worker=> (worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned");
+            workersFind = workers.filter(worker => (worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned");
             console.log(workersFind);
-            createModel(workersFind , btn);
+            createModel(workersFind, btn);
             break;
         case 'security':
-            workersFind = workers.filter(worker=> (worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned");
-            createModel(workersFind , btn);
+            workersFind = workers.filter(worker => (worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned");
+            createModel(workersFind, btn);
             break;
         case 'archive':
-            workersFind = workers.filter(worker=> (worker.role != "Nettoyage") && worker.place != "assigned");
-            createModel(workersFind ,btn);
+            workersFind = workers.filter(worker => (worker.role != "Nettoyage") && worker.place != "assigned");
+            createModel(workersFind, btn);
             break;
         case 'Conference':
-            workersFind = workers.filter(worker=> worker.place != "assigned");
-           createModel(workersFind ,btn);
+            workersFind = workers.filter(worker => worker.place != "assigned");
+            createModel(workersFind, btn);
             break;
         default:
             break;
     }
 }
-function attachEventsToZonesActionBtns(){
-    buttonZones.forEach(btn =>{
-        btn.addEventListener('click' ,()=>{
-            console.log(btn.getAttribute('id'));
-           checkRole(btn.getAttribute('id') , btn)
+
+function attachEventsToZonesActionBtns() {
+    buttonZones.forEach(btn => {
+        btn.addEventListener('click', () => {
+            checkRole(btn.getAttribute('id'), btn)
         })
     })
 }
+
 function renderWorker(worker) {
 
     const divWorker = document.createElement('div');
     divWorker.innerHTML = `
-    <div class="flex w-full justify-between p-2 bg-[#4b5154] rounded-md ">
+    <div class="flex w-full justify-between p-2 bg-[#23282e] rounded-md ">
                         <div class="cartWorker flex gap-2 items-center">
                             <img class="w-16 h-16 rounded-full"
                                 src="${worker.url}">
@@ -472,7 +488,7 @@ function renderWorker(worker) {
                                 <p class="">${worker.role}</p>
                             </div>
                         </div>
-                        <button class="btn-edite-worker" id=${worker.id}><i class="fa-solid fa-pen"></i></button>
+                        <button class="btn-edite-worker" id=${worker.id}><i class="fa-solid fa-pen text-white"></i></button>
                     </div>`
 
     divWorker.querySelector(".cartWorker").addEventListener('click', () => {
@@ -483,6 +499,7 @@ function renderWorker(worker) {
 
 
 function initialisation() {
+
     attachEventsToZonesActionBtns();
     avatar.addEventListener('input', changePhoto);
     btnCancel.addEventListener('click', closeModel);
@@ -506,6 +523,7 @@ function initialisation() {
     });
 
     listeWorkers()
+   
 }
 
 initialisation(); 
