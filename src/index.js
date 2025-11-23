@@ -274,17 +274,17 @@ function addExprience(exprience = null, place = null) {
     } else {
         div.innerHTML += `<div class="exprince flex flex-col gap-2 bg-gray-300 rounded-2xl p-4">
                                         <label for="">company :</label>
-                                        <input required value="${exprience?.company || ''}"  type="text" class="company px-3 py-2 border border-black rounded-lg 
+                                        <input  value="${exprience?.company || ''}"  type="text" class="company px-3 py-2 border border-black rounded-lg 
                                         focus:outline-none focus:ring-1 focus:ring-blue-500 ">
                                         <label for="">role :</label>
-                                        <input required value="${exprience?.role || ''}" type="text" class="role px-3 py-2 border border-black rounded-lg 
+                                        <input  value="${exprience?.role || ''}" type="text" class="role px-3 py-2 border border-black rounded-lg 
                                         focus:outline-none focus:ring-1 focus:ring-blue-500 ">
                                         <label for="">form :</label>
-                                        <input required value="${exprience?.formDate || ''}"  class="form-date" type="date" class="px-3 py-2 border border-black rounded-lg 
+                                        <input  value="${exprience?.formDate || ''}"  class="form-date" type="date" class="px-3 py-2 border border-black rounded-lg 
                                         ">
                                         <label for="">to :
                                         </label>
-                                        <input required value="${exprience?.toDate || ''}" class="to-date" type="date" class="px-3 py-2 border border-black rounded-lg 
+                                        <input  value="${exprience?.toDate || ''}" class="to-date" type="date" class="px-3 py-2 border border-black rounded-lg 
                                         ">
                                         <p class="errorDate text-red-400"></p>
                             </div>` ;
@@ -346,7 +346,6 @@ function createModel(workers, btnPlace) {
 
     btns.forEach(btn => {
         btn.addEventListener('click', () => {
-             
             let data = getDataFromLocalStorage();
             const worker = data.filter(worker => worker.id == btn.getAttribute('id'));
             console.log(worker);
@@ -427,20 +426,20 @@ function checkRole(role, btn) {
             createModel(workersFind, btn);
             break;
         case 'server':
-            workersFind = workers.filter(worker => (worker.role == "Techniciens IT" || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned");
+            workersFind = workers.filter(worker => (worker.role == "Techniciens IT" || worker.role == "Manager" || worker.role == "Nettoyage" || worker.place == "Autres rôles") && worker.place != "assigned");
             createModel(workersFind, btn);
             break;
         case 'Reception':
-            workersFind = workers.filter(worker => (worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned");
+            workersFind = workers.filter(worker => (worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned" && worker.place != "Autres rôles");
             console.log(workersFind);
             createModel(workersFind, btn);
             break;
         case 'security':
-            workersFind = workers.filter(worker => (worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned");
+            workersFind = workers.filter(worker => (worker.role == role || worker.role == "Manager" || worker.role == "Nettoyage") && worker.place != "assigned" && worker.place != "Autres rôles");
             createModel(workersFind, btn);
             break;
         case 'archive':
-            workersFind = workers.filter(worker => (worker.role != "Nettoyage") && worker.place != "assigned");
+            workersFind = workers.filter(worker => (worker.role != "Nettoyage") && worker.place != "assigned" && worker.place != "Autres rôles");
             createModel(workersFind, btn);
             break;
         case 'Conference':
