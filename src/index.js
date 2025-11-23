@@ -1,6 +1,7 @@
 const STOCAGEKEY = 'staff';
 let changeId = null;
 let idWorker = null;
+let isValide;
 
 const btnAddWorker = document.querySelector('#btn-add-worker');
 const modal = document.querySelector('#modal');
@@ -19,6 +20,36 @@ const divCartsWorkers = document.querySelector('#cartsWorkers');
 const btn = divCartsWorkers.querySelector('#closeModelCarts');
 const modalCarts = document.querySelector('#modalCarts');
 const carts = modalCarts.querySelector('.carts');
+const container = document.querySelector('.container');
+const email = divExpreince.querySelector('#email');
+const phone = divExpreince.querySelector('#phone');
+const errorEmail = divExpreince.querySelector('#errorEmail');
+const errorPhone = divExpreince.querySelector('#errorPhone');
+
+
+ email.addEventListener('change', () => {
+        if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            email.style.borderColor = "red";
+            errorEmail.textContent = "Invalid Email.";
+            isValide = false;
+        } else {
+            errorEmail.textContent = "";
+            email.style.borderColor = "black";
+            isValide = true;
+        }
+    })
+    phone.addEventListener('change', () => {
+        if (!phone.value.match(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/)) {
+            phone.style.borderColor = "red";
+            errorPhone.textContent = "Invalid Phone.";
+            isValide = false;
+        } else {
+            errorPhone.textContent = "";
+            phone.style.borderColor = "black";
+            isValide = true;
+        }
+    })
+
 
 btn.addEventListener('click', () => {
     modalCarts.style.display = "none";
@@ -62,7 +93,7 @@ function attachEventsToEmplyeeActionBtns() {
 function openModal(id = null) {
     changeId = id;
     modal.style.display = 'flex';
-    validationForm();
+    container.classList.add("blur-active");
     if (changeId) {
         const allWorkers = getDataFromLocalStorage();
         const worker = allWorkers.find(item =>
@@ -81,6 +112,7 @@ function openModal(id = null) {
     }
 }
 function detailsWorker(worker) {
+    container.classList.add("blur-active");
     const modalWorkerDetails = document.createElement('div');
     modalWorkerDetails.innerHTML = `<div class="fixed inset-0 flex z-50 items-center justify-center">
             <div class="bg-black rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative max-[480px]:border max-[480px]:border-white max-[480px]:w-[95%]">
@@ -118,6 +150,7 @@ function detailsWorker(worker) {
         </div>`;
     const btnCloseModalDetails = modalWorkerDetails.querySelector("#closeModel");
     btnCloseModalDetails.addEventListener('click', () => {
+        container.classList.remove("blur-active");
         modalWorkerDetails.remove();
     })
     const expreincesDetails = modalWorkerDetails.querySelector("#expreinces-details");
@@ -127,6 +160,7 @@ function detailsWorker(worker) {
     body.append(modalWorkerDetails);
 }
 function closeModel() {
+    container.classList.remove("blur-active");
     deleteFormExprience();
     videInputs();
     modal.style.display = 'none';
@@ -141,7 +175,8 @@ function videInputs() {
     divExpreince.querySelector('#phone').value = "";
 }
 function saveWorker() {
-    let isValide = validationForm();
+    
+    
     let newData = getDataFromLocalStorage();
     const id = divExpreince.querySelector('#worker-id').value;
     const name = divExpreince.querySelector('#name').value;
@@ -150,13 +185,15 @@ function saveWorker() {
     const email = divExpreince.querySelector('#email').value;
     const phone = divExpreince.querySelector('#phone').value;
 
+   
+
     const companies = expreinces.querySelectorAll(".company");
     const rolesE = expreinces.querySelectorAll(".role");
     const formDate = expreinces.querySelectorAll(".form-date");
     const toDate = expreinces.querySelectorAll(".to-date");
     const errorDate = expreinces.querySelectorAll(".errorDate");
     idWorker = newData.find(worker => worker.id == id)
-    let expp = [];
+    let expreincess = [];
 
     for (let i = 0; i < companies.length; i++) {
         if (companies[i].value == "") {
@@ -166,7 +203,7 @@ function saveWorker() {
                 errorDate[i].textContent = "Date from must be great then date to";
                 return;
             }
-            expp.push({
+            expreincess.push({
                 company: companies[i].value,
                 role: rolesE[i].value,
                 formDate: formDate[i].value,
@@ -180,7 +217,7 @@ function saveWorker() {
         idWorker.url = url;
         idWorker.email = email;
         idWorker.phone = phone;
-        idWorker.expreinces = expp;
+        idWorker.expreinces = expreincess;
     }
     else {
         let isExisit = newData.find(worker => worker.email == email)
@@ -191,8 +228,8 @@ function saveWorker() {
         console.log(isValide);
         if (!isValide) {
             return;
-        }
-        newData.push({
+        }else{
+          newData.push({
             id: genretid(),
             name,
             role,
@@ -201,8 +238,9 @@ function saveWorker() {
             phone,
             zone: "",
             place:"unassigned",
-            expreinces: expp
+            expreinces: expreincess
         });
+        }
     }
 
     sendDataToLocalStorage(newData);
@@ -210,38 +248,6 @@ function saveWorker() {
     closeModel();
     listeWorkers();
     videInputs();
-}
-function validationForm() {
-    let isValide = true;
-    const email = divExpreince.querySelector('#email');
-    const phone = divExpreince.querySelector('#phone');
-    const errorEmail = divExpreince.querySelector('#errorEmail');
-    const errorPhone = divExpreince.querySelector('#errorPhone');
-
-    email.addEventListener('change', () => {
-        if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-            email.style.borderColor = "red";
-            errorEmail.textContent = "Invalid Email.";
-            isValide = false;
-        } else {
-            errorEmail.textContent = "";
-            email.style.borderColor = "black";
-            isValide = true;
-        }
-    })
-    phone.addEventListener('change', () => {
-        if (!phone.value.match(/(\+212|0)([ \-_/]*)(\d[ \-_/]*){9}/)) {
-            phone.style.borderColor = "red";
-            errorPhone.textContent = "Invalid Phone.";
-            isValide = false;
-        } else {
-            errorPhone.textContent = "";
-            phone.style.borderColor = "black";
-            isValide = true;
-        }
-    })
-    return isValide;
-
 }
 
 function deleteFormExprience() {
