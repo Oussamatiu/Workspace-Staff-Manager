@@ -33,3 +33,59 @@
       grid-column: 19/25 ;
       grid-row: 15/23;
 }
+.empty {
+    position: relative; 
+}
+
+.empty::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 0, 0, 0.2); 
+    pointer-events: none; 
+    
+}
+@media screen and (max-width: 480px) {
+    .images{
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 2rem;
+        height: 200vh;
+        background-image: none;
+        margin-bottom: 1rem;
+    }
+    .images > div{
+        height: 300px ;
+        width: 100%;
+    }
+    .Conference {
+         
+    grid-column: 1;
+    grid-row: 1;
+}
+.Reception {
+     
+      
+    grid-column: 1;
+    grid-row: 2;
+}
+.security{
+    grid-column: 1;
+    grid-row: 3;
+}
+.server {
+    grid-column: 1;
+    grid-row: 4;
+}
+.staff{
+    grid-column: 1;
+    grid-row: 5;
+}
+.archive{
+     grid-column: 1;
+    grid-row: 6;
+}
+}

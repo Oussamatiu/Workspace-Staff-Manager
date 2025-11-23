@@ -21,12 +21,9 @@ const modalCarts = document.querySelector('#modalCarts');
 const carts = modalCarts.querySelector('.carts');
 
 btn.addEventListener('click', () => {
-    console.log('dd')
     modalCarts.style.display = "none";
 })
  
-
-
 document.addEventListener('DOMContentLoaded', () => {
     restart();
 });
@@ -34,13 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
 function restart() {
     let data = getDataFromLocalStorage();
     data.forEach(worker => {
-        console.log(worker)
         worker.place = "unassigned";
+        worker.zone = "";
     })
     sendDataToLocalStorage(data);
     listeWorkers();
 }
-
 
 function getDataFromLocalStorage() {
     const data = localStorage.getItem(STOCAGEKEY);
@@ -50,17 +46,14 @@ function getDataFromLocalStorage() {
     return [];
 }
 
-
 function genretid() {
     return `s${Date.now() + Math.random().toString(36)}`
 }
-
 
 function attachEventsToEmplyeeActionBtns() {
     const editeBtns = document.querySelectorAll('.btn-edite-worker');
     editeBtns.forEach(item => {
         item.addEventListener('click', () => {
-
             idWorker = item.getAttribute('id');
             openModal(idWorker);
         })
@@ -90,7 +83,7 @@ function openModal(id = null) {
 function detailsWorker(worker) {
     const modalWorkerDetails = document.createElement('div');
     modalWorkerDetails.innerHTML = `<div class="fixed inset-0 flex z-50 items-center justify-center">
-            <div class="bg-black rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative">
+            <div class="bg-black rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative max-[480px]:border max-[480px]:border-white max-[480px]:w-[95%]">
                 <button id="closeModel" class="text-white absolute  right-5 top-1"><i class="fa-solid fa-x"></i></button>
                 <form id="worker-form" class="space-y-4">
                     <input type="hidden" id="worker-id" >
@@ -138,42 +131,6 @@ function closeModel() {
     videInputs();
     modal.style.display = 'none';
 }
-function infosWorker() {
-    const workerInfos = [];
-    const id = divExpreince.querySelector('#worker-id').value;
-    const name = divExpreince.querySelector('#name').value;
-    const role = divExpreince.querySelector('#role').value;
-    const url = divExpreince.querySelector('#photoUrl').value;
-    const email = divExpreince.querySelector('#email').value;
-    const phone = divExpreince.querySelector('#phone').value;
-    let inputs = [name, role, url, email, phone];
-
-    const companies = expreinces.querySelectorAll(".company");
-    const rolesE = expreinces.querySelectorAll(".role");
-    const formDate = expreinces.querySelectorAll(".form-date");
-    const toDate = expreinces.querySelectorAll(".to-date");
-    let expp = [];
-
-    // for (let i = 0; i < companies.length; i++) {
-    //     expp.push({
-    //         company: companies[i].value,
-    //         role: rolesE[i].value,
-    //         formDate: formDate[i].value,
-    //         toDate: toDate[i].value
-    //     });
-    //     workerInfos.push({
-    //         id: genretid(),
-    //         name,
-    //         role,
-    //         url,
-    //         email,
-    //         phone,
-    //         expreinces: expp
-    //     });
-
-    // }
-    return inputs;
-}
 function videInputs() {
     divExpreince.querySelector('#worker-id').value = "";
     divExpreince.querySelector('#name').value = "";
@@ -185,7 +142,6 @@ function videInputs() {
 }
 function saveWorker() {
     let isValide = validationForm();
-    console.log(isValide);
     let newData = getDataFromLocalStorage();
     const id = divExpreince.querySelector('#worker-id').value;
     const name = divExpreince.querySelector('#name').value;
@@ -219,7 +175,6 @@ function saveWorker() {
         }
     }
     if (idWorker) {
-
         idWorker.name = name;
         idWorker.role = role;
         idWorker.url = url;
@@ -244,7 +199,8 @@ function saveWorker() {
             url,
             email,
             phone,
-            place: "unassigned",
+            zone: "",
+            place:"unassigned",
             expreinces: expp
         });
     }
@@ -287,7 +243,6 @@ function validationForm() {
     return isValide;
 
 }
-
 
 function deleteFormExprience() {
     const exprienceToDelet = expreinces.querySelectorAll('.exprince');
@@ -385,15 +340,18 @@ function createModel(workers, btnPlace) {
 
     btns.forEach(btn => {
         btn.addEventListener('click', () => {
+             
             let data = getDataFromLocalStorage();
             const worker = data.filter(worker => worker.id == btn.getAttribute('id'));
             console.log(worker);
             worker.forEach(worker => {
                 worker.place = "assigned";
+                worker.zone = btnPlace.getAttribute('id')
                 sendDataToLocalStorage(data);
+                checkRoom();
                 listeWorkers();
                 const contTR = btnPlace.parentElement.getElementsByClassName("cont")[0];
-                contTR.innerHTML += `<div class="workerCart flex items-center justify-between p-2 bg-[#4b5154] rounded-lg w-full max-w-[180px]">
+                contTR.innerHTML += `<div class="workerCart flex items-center justify-between p-2 bg-[#4b5154] mx-auto rounded-lg w-full max-w-[180px]">
                     <div class="cartWorker flex items-center gap-2">
                         <img class="w-10 h-10 rounded-full" src="${worker.url}">
                         <div class="leading-tight">
@@ -407,7 +365,7 @@ function createModel(workers, btnPlace) {
                 </div> `;
 
                 })
-                
+               
                 modalCarts.style.display = "none";
                 carts.querySelectorAll('div').forEach(div => {
                     div.remove();
@@ -417,21 +375,42 @@ function createModel(workers, btnPlace) {
 
     })
     
-
+checkRoom();
 }
 
 function deleteWorker(btn, workerId) {
+    
     const cart = btn.parentElement;
     let data = getDataFromLocalStorage();
     const worker = data.find(w => w.id == workerId);
     if (worker) {
         worker.place = "unassigned";
+        worker.zone = "";
     }
     sendDataToLocalStorage(data);
+    checkRoom();
     cart.remove();
     listeWorkers();
 }
+function checkRoom() {
+    const divImages = document.querySelector('.images');
+    const divs = Array.from(divImages.querySelectorAll('div'));
+    const divA = divImages.querySelectorAll('.a');
+    const data = getDataFromLocalStorage();
 
+    
+    divA.forEach(div => {
+        if(!div.classList.contains("Conference") && !div.classList.contains("staff"))
+            div.classList.add("empty");
+        });
+  
+        data.forEach(worker => {
+            const zoneDiv = divs.find(div => div.classList.contains(worker.zone));
+            if (zoneDiv) {
+                zoneDiv.classList.remove("empty");
+            }
+     })
+}
 
 function checkRole(role, btn) {
     const workers = getDataFromLocalStorage();
@@ -476,7 +455,6 @@ function attachEventsToZonesActionBtns() {
 }
 
 function renderWorker(worker) {
-
     const divWorker = document.createElement('div');
     divWorker.innerHTML = `
     <div class="flex w-full justify-between p-2 bg-[#23282e] rounded-md ">
@@ -497,9 +475,9 @@ function renderWorker(worker) {
     divWorkers.append(divWorker);
 }
 
-
 function initialisation() {
-
+   checkRoom();
+    
     attachEventsToZonesActionBtns();
     avatar.addEventListener('input', changePhoto);
     btnCancel.addEventListener('click', closeModel);
@@ -521,9 +499,7 @@ function initialisation() {
         divCartsWorkers.querySelectorAll('.workerCart').forEach(div => div.remove());
         modalCarts.style.display = "none";
     });
-
-    listeWorkers()
-   
+    listeWorkers() 
 }
 
 initialisation(); 
