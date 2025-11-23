@@ -1,0 +1,91 @@
+.images {
+    display: grid;
+    grid-template-columns: repeat(22 ,1fr);
+    grid-template-rows: repeat(22 , 1fr);
+    background-image: url('./images/plan-6918d7e78ba30539026036.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover; 
+    height: 100vh;
+    width: 100%;
+}
+.Conference {
+    grid-column: 1/9;
+    grid-row: 1/9;
+}
+.Reception {
+    grid-column: 1/9;
+    grid-row: 9/23;
+}
+.security{
+    grid-column: 18/25;
+    grid-row: 1/9;
+}
+.server {
+    grid-column: 13/18 ;
+    grid-row: 1/9;
+}
+.staff{
+    grid-column: 13/19 ;
+    grid-row: 15/23;
+}
+.archive{
+      grid-column: 19/25 ;
+      grid-row: 15/23;
+}
+.empty {
+    position: relative; 
+}
+
+.empty::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 0, 0, 0.2); 
+    pointer-events: none; 
+    
+}
+@media screen and (max-width: 480px) {
+    .images{
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 2rem;
+        height: 200vh;
+        background-image: none;
+        margin-bottom: 1rem;
+    }
+    .images > div{
+        height: 300px ;
+        width: 100%;
+    }
+    .Conference {
+         
+    grid-column: 1;
+    grid-row: 1;
+}
+.Reception {
+     
+      
+    grid-column: 1;
+    grid-row: 2;
+}
+.security{
+    grid-column: 1;
+    grid-row: 3;
+}
+.server {
+    grid-column: 1;
+    grid-row: 4;
+}
+.staff{
+    grid-column: 1;
+    grid-row: 5;
+}
+.archive{
+     grid-column: 1;
+    grid-row: 6;
+}
+}

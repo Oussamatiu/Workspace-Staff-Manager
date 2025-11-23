@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <script defer src="index.js"></script>
+    <title>Workspace Staff Manager</title>
+</head>
+
+<body>
+    <main class="w-full" id="main">
+        <div class="container grid grid-cols-4 h-full bg-black px-2 gap-2  max-[480px]:grid-cols-1 max-[480px]:gap-0   ">
+            <section class="side-bar h-full  border border-r-amber-50 bg-black flex flex-col gap-2 items-center px-2 max-[480px]:border-0 max-[480px]:mx-auto">
+                <h1 class="text-white text-2xl font-medium pt-5 pb-2 text-center">
+                    Staff-Mambers <br>
+                    (Unassigned Staff)
+                </h1>
+                <button id="btn-add-worker" class=" w-full py-3 mb-3  bg-[#2a5efa] text-white  hover:bg-blue-300 hover:cursor-pointer transition duration-700 rounded-md">
+                    <i class="fa-solid fa-plus"></i>
+                    Add New Worker
+                </button>
+                
+                <div class="flex flex-col gap-2 w-full overflow-y-auto max-h-[75vh] max-[480px]:max-h-[60vh] " id="workers">
+
+
+                </div>
+            </section>
+            <section
+                class="images col-span-3 max-[400px]:grid-cols-1 max-[400px]:mt-5">
+                <div
+                    class="Conference a bg-[url('./images/Conference_room.webp')] bg-no-repeat bg-center bg-cover relative overflow-y-auto ">
+                    <div class="cont flex flex-col gap-1"></div>
+                    <button id="Conference" class="w-7 h-7  bg-blue-600 text-white rounded-full 
+                       hover:bg-blue-500 transition absolute bottom-4 right-[50%] hover:cursor-pointer"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div class="archive a bg-[url('./images/archive.webp')] bg-no-repeat bg-center bg-cover relative  overflow-y-auto">
+                    <div class="cont flex flex-col gap-1"></div>
+                    <button id="archive" class="w-7 h-7  bg-blue-600 text-white rounded-full 
+                       hover:bg-blue-500 transition absolute bottom-4 right-[50%] hover:cursor-pointer"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div class="security a bg-[url('./images/security.webp')] bg-no-repeat bg-center bg-cover relative overflow-y-auto">
+                    <div class="cont flex flex-col gap-1"></div>
+                  <button id="security"
+                   class="w-7 h-7  bg-blue-600 text-white rounded-full 
+                       hover:bg-blue-500 transition absolute bottom-4 right-[50%] hover:cursor-pointer"><i class="fa-solid fa-plus"></i>
+                  </button>
+                </div>
+                <div
+                    class="Reception a bg-[url('./images/Reception.webp')] bg-no-repeat bg-center bg-cover relative overflow-y-auto">
+                    <div class="cont flex flex-col gap-1"></div>
+                    <button id="Reception" class="w-7 h-7  bg-blue-600 text-white rounded-full 
+                       hover:bg-blue-500 transition absolute bottom-4 right-[50%] hover:cursor-pointer"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div class="server a bg-[url('./images/server.webp')] bg-no-repeat bg-center bg-cover relative ">
+                    <div class="cont flex flex-col gap-1"></div>
+                    <button id="server" class="w-7 h-7  bg-blue-600 text-white rounded-full 
+                       hover:bg-blue-500 transition absolute bottom-4 right-[50%] hover:cursor-pointer"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div class="staff a bg-[url('./images/staff.webp')] bg-no-repeat bg-center bg-cover relative ">
+                    <div class="cont flex flex-col gap-1"></div>
+                    <button id="staff" class="w-7 h-7  bg-blue-600 text-white rounded-full 
+                       hover:bg-blue-500 transition absolute bottom-4 right-[50%] hover:cursor-pointer"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </section>
+        </div>
+
+        <div id="modal" class="fixed inset-0 hidden z-50 items-center justify-center">
+            <div class="bg-black rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative max-[480px]:border max-[480px]:border-white max-[480px]:w-[95%]">
+                <button id="closeModel" class="text-white hover:text-red-500 absolute right-5 top-1 hover:cursor-pointer"><i class="fa-solid fa-x"></i></button>
+                <h1 class="text-2xl text-white text-center mb-2">Create Woker</h1>
+                <form id="worker-form" class="space-y-4">
+                    <input type="hidden" id="worker-id">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-white" for="">name :</label>
+                        <input id="name" type="text" required class="text-white px-3 py-2 border border-gray-300 rounded-lg 
+                           focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <p id="errorName"></p>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-white" for="">role :</label>
+                        <select class="text-white px-3 py-2 border border-gray-300 rounded-lg sm:text-sm" name="" id="role" required>
+                            <option value="" class="text-black">Your role</option>
+                            <option class="text-black" value="Techniciens IT">Techniciens IT</option>
+                            <option class="text-black" value="Reception">Reception</option>
+                            <option class="text-black" value="Manager">Manager</option>
+                            <option class="text-black" value="security">security</option>
+                            <option class="text-black" value="Nettoyage">Nettoyage</option>
+                            <option class="text-black" value="Conference">Conference</option>
+                            <option class="text-black" value="Autres rôles">Autres rôles</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center gap-4 w-full">
+                        <img id="photoPreview"
+                            src="https://imgs.search.brave.com/IZK862jIKGBRPE7eNDkXhvPvuqDL8TNq0hHfIQs2MGg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTMy/NzU5MjQ0OS92ZWN0/b3IvZGVmYXVsdC1h/dmF0YXItcGhvdG8t/cGxhY2Vob2xkZXIt/aWNvbi1ncmV5LXBy/b2ZpbGUtcGljdHVy/ZS1idXNpbmVzcy1t/YW4uanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPXlxb29zN2c5/am11ZkpoZmtiUXNr/LW1kaEtFc2loNkRp/NFdaNjZ0X2liN0k9"
+                            alt="Photo preview" class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 max-[480px]:w-12 max-[480px]:h-12">
+
+                        <input id="photoUrl" placeholder="Photo URL" class="text-white flex-1 px-3 py-2 border border-gray-300 rounded-lg 
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 max-[480px]:w-35">
+                        <p id="errorUrl"></p>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-white" for="">email :</label>
+                        <input id="email" type="email" class="text-white px-3 py-2 border border-gray-300 rounded-lg 
+                           focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <p id="errorEmail" class="text-red-600"></p>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-white" for="">Phone :</label>
+                        <input id="phone" type="tel" required class="text-white px-3 py-2 border border-gray-300 rounded-lg 
+                           focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <p id="errorPhone"></p>
+                    </div>
+                    <div id="expreinces" class="flex flex-col gap-2">
+
+                    </div>
+                    <button id="btn-add-exprience" class="bg-[#2a5efa] rounded-md p-2 text-white hover:cursor-pointer"><i class="fa-solid fa-plus mr-1"></i> Add exprience</button>
+                    <div class="flex justify-between max-[480px]:flex-col max-[480px]:gap-2">
+                        <button type="submit" id="btn-submit" class="bg-[#2a5efa] rounded-md text-white px-4 py-1 hover:cursor-pointer">Save</button>
+                        <button id="btn-cancel" type="button" class="bg-[#2a5efa] rounded-md text-white px-4 py-1 hover:cursor-pointer">Cancel</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+          <div id="modalCarts" class="fixed inset-0 hidden z-50 items-center justify-center">
+            <div id="cartsWorkers" class=" bg-black rounded-lg shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto relative max-[480px]:border max-[480px]:border-white max-[480px]:w-[95%]">
+                <button id="closeModelCarts"  class="text-white text-2xl absolute right-5 top-1 mb-5 hover:cursor-pointer"><i class="fa-solid fa-x"></i></button>
+                <div class="carts flex flex-col gap-1 mt-4 max-h-[50vh] overflow-y-auto"></div>
+                
+
+            </div>
+        </div>
+
+
+
+
+    </main>
+</body>
+
+</html>
